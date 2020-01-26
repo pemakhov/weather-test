@@ -1,0 +1,1 @@
+A simple web app displaying weather forecast for a user-specified city.
