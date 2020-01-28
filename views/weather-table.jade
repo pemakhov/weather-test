@@ -1,21 +1,8 @@
 div.row.row-cols-5
+  each dayNumber in [0, 1, 2, 3, 4]
     ul.list-group.p-1
-      li.list-group-item.list-group-item-light.text-center Today
-      li.list-group-item.list-group-item-light Temp
-      li.list-group-item.list-group-item-light  Icon
-    ul.list-group.p-1
-      li.list-group-item.list-group-item-light.text-center Tomorrow
-      li.list-group-item.list-group-item-light Temp
-      li.list-group-item.list-group-item-light  Icon
-    ul.list-group.p-1
-      li.list-group-item.list-group-item-light.text-center Day
-      li.list-group-item.list-group-item-light Temp
-      li.list-group-item.list-group-item-light  Icon
-    ul.list-group.p-1
-      li.list-group-item.list-group-item-light.text-center Day
-      li.list-group-item.list-group-item-light Temp
-      li.list-group-item.list-group-item-light  Icon
-    ul.list-group.p-1
-      li.list-group-item.list-group-item-light.text-center Day
-      li.list-group-item.list-group-item-light Temp
-      li.list-group-item.list-group-item-light  Icon
+      li.list-group-item.list-group-item-light.text-center #{cityData[dayNumber].day}
+      li.list-group-item.list-group-item-light.text-center #{cityData[dayNumber].temp} &#176;
+      li.list-group-item.list-group-item-light.text-center 
+        - var link = `http://openweathermap.org/img/wn/${cityData[dayNumber].icon}@2x.png`
+        img(src=link)
