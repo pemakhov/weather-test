@@ -13,7 +13,10 @@ window.onload = function () {
             }
             publish(res.city.name);
             let data = collectData(res.list);
-            console.log(data);
+			console.log(data);
+			$.post('/data', data, function (res) {
+				publish(res);
+            });
         });
     });
 }
@@ -41,7 +44,7 @@ const collectData = (list) => {
         day++;
     }
     return data;
-}
+};
 
 /* Constants */
 const FORECAST_DAYS = 5;
@@ -49,14 +52,27 @@ const FORECAST_DAYS = 5;
 const setDaysOfWeek = (data) => {
     var today = new Date().getUTCDay();
     for (let i = 0; i < FORECAST_DAYS; i++) {
-        data.push({day: today + i});
+        data.push({ day: getDayName(today + i) });
     }
     return data;
-}
+};
+
+const getDayName = (dayNumber) => {
+	const weekDayNames = [
+		'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday'
+	];
+	return weekDayNames[dayNumber];
+};
 
 /* Constants */
 const KELVIN_TO_CELSIUS = 273.15;
 
 const formatTemperature = (kelvins) => {
     return Math.round(kelvins - KELVIN_TO_CELSIUS);
-}
+};
