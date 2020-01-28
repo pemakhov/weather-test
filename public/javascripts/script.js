@@ -12,7 +12,7 @@ window.onload = function () {
                 return;
             }
             publish(res.city.name);
-            let data = collectData(getForecastDays(), res.list);
+            let data = collectData(res.list);
             console.log(data);
         });
     });
@@ -22,35 +22,36 @@ const publish = (message) => {
     $('#weather').html(message);
 }
 
-/* Constants */
-const FORECAST_DAYS = 5;
-
-const getForecastDays = () => {
-    var today = new Date().getUTCDay();
-    let result = [];
-    for (let i = 0; i < FORECAST_DAYS; i++) {
-        result.push(today + i);
-    }
-    return result;
-}
-
-const collectData = (days, list) => {
+const collectData = (list) => {
+	let data = [];
+	data = setDaysOfWeek(data);
     let day = 0;
     let first = true;
-    for (const element of list) {
-        if (days >= days.length) {
+	const nowHours = new Date().getHours();
+    for (let element of list) {
+        if (day >= data.length) {
             break;
         }
-        if (new Date().getHours() !== 12 && !first) {
+		if ((new Date(element.dt_txt).getHours() !== 12 && !first) || (nowHours < 12 && first)) {
             continue;
         }
         first = false;
-        days[day].temp = formatTemperature(element.main.temp);
-        days[day].icon = element.weather[0].icon;
-        console.log(`days[0].temp = ${days[day].temp}`)
-        days++;
+        data[day].temp = formatTemperature(element.main.temp);
+        data[day].icon = element.weather[0].icon;
+        day++;
     }
-    return days;
+    return data;
+}
+
+/* Constants */
+const FORECAST_DAYS = 5;
+
+const setDaysOfWeek = (data) => {
+    var today = new Date().getUTCDay();
+    for (let i = 0; i < FORECAST_DAYS; i++) {
+        data.push({day: today + i});
+    }
+    return data;
 }
 
 /* Constants */
