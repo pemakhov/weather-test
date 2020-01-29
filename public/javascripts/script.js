@@ -39,17 +39,21 @@ const publish = (what, where) => {
 
 /* Collects only needed data from the api's object */
 const collectData = (list) => {
+	console.log(list);
+
     let data = [];
     data = setDaysOfWeek(data);
     let day = 0;
     let first = true;
     const nowHours = new Date().getHours();
+	let i = -1;
     for (let element of list) {
         if (day >= data.length) {
             break;
         }
         /* Collect data for 12:00, or the first data for the current day, if it is past 12:00 */
-        if ((new Date(element.dt_txt).getHours() !== 12 && !first) || (nowHours < 12 && first)) {
+		const forecastHours = new Date(element.dt_txt).getHours();
+        if ((forecastHours !== 12 && !first) || (nowHours < 12 && first && forecastHours !== 12)) {
             continue;
         }
         first = false;
@@ -57,17 +61,19 @@ const collectData = (list) => {
         data[day].icon = element.weather[0].icon;
         day++;
     }
+	console.log(data);
     return data;
 };
 
 /* Constants */
 const FORECAST_DAYS = 5;
+const DAYS_IN_WEEK = 7;
 
 /* Sets week day names for forecast days */
 const setDaysOfWeek = (data) => {
     var today = new Date().getUTCDay();
     for (let i = 0; i < FORECAST_DAYS; i++) {
-        data.push({ day: getDayName(today + i) });
+        data.push({ day: getDayName((today + i) % DAYS_IN_WEEK) });
     }
     return data;
 };
