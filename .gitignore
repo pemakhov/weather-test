@@ -4,3 +4,6 @@ task/
 # Dependency directories
 node_modules/
 jspm_packages/
+
+# Private key
+api_key.txt

@@ -10,7 +10,7 @@ router.get('/', function (req, res, next) {
 
 /* Get forecast data. */
 router.post('/', function (req, res) {
-  fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${req.body.city}&APPID=d8db4200188415907b23cd38e4763112`)
+  fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${req.body.city}&APPID=`)
     .then(res => res.json())
     .then(json => res.send(json));
 });
