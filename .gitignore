@@ -7,3 +7,8 @@ jspm_packages/
 
 # Private key
 api_key.txt
+apiconfig.js
+
+#Config files
+.editorconfig
+.eslintrc.json
