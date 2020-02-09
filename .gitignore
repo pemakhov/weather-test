@@ -1,6 +1,9 @@
 # Technical task files
 task/
 
+# Arbitrary data
+misc/
+
 # Dependency directories
 node_modules/
 jspm_packages/

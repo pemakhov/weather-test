@@ -1,0 +1,15 @@
+extends index
+
+block message
+  h3#message.justify-content-md-center.text-center.mb-4 #{message}
+block forecast
+  div#weather.container
+    div.row.row-cols-5
+      each dayNumber in [0, 1, 2, 3, 4]
+        ul.list-group.p-1
+          li.list-group-item.list-group-item-light.text-center #{data[dayNumber].day}
+          li.list-group-item.list-group-item-light.text-center #{data[dayNumber].time}
+          li.list-group-item.list-group-item-light.text-center #{data[dayNumber].temp} &#176;
+          li.list-group-item.list-group-item-light.text-center 
+            - var link = `http://openweathermap.org/img/wn/${data[dayNumber].icon}@2x.png`
+            img(src=link alt="#{data[dayNumber].description}")

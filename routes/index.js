@@ -1,7 +1,5 @@
-
 const express = require('express');
-const fetch = require('node-fetch');
-const API_KEY = require('../apiconfig');
+const WeatherService = require('../app/WeatherService');
 
 const router = express.Router();
 
@@ -10,17 +8,27 @@ router.get('/', (req, res) => {
   res.render('index');
 });
 
-/* Get forecast data. */
-router.post('/', (req, res) => {
-  fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${req.body.city}&APPID=${API_KEY}`)
-    .then((data) => data.json())
-    .then((json) => res.send(json));
-});
+router.get('/weather', (req, res) => {
+  try {
+    const { city } = req.query;
 
-/* POST weather table. */
-router.post('/data', (req, res) => {
-  const data = JSON.parse(req.body.cityData);
-  res.render('weather-table', { cityData: data });
+    if (!city || city.length === 0) {
+      return res.status(400).render('error', { message: 'Bad request' });
+    }
+
+    WeatherService.getWeather(city)
+      .then((json) => {
+        if (parseInt(json.cod, 10) === 404) {
+          return res.status(404).render('error', { message: 'City not found' });
+        }
+
+        const forecast = WeatherService.prepareData(json);
+        return res.status(200).render('forecast', { data: forecast.data, message: `Weather in ${forecast.city}` });
+      });
+  } catch (err) {
+    res.status(500).render('error', { message: err.message });
+  }
+  return false;
 });
 
 module.exports = router;

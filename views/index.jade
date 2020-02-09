@@ -2,10 +2,11 @@ extends layout
 
 block content
   div.container.mb-5.mt-5
-    form
+    form(method='GET', action='/weather')
       div.form-group.row.mr-auto.justify-content-md-center
-        input#city.form-control.col.col-lg-5.mr-2.border.border-dark.rounded-15(type='text', placeholder = 'Enter a city')
+        input#city.form-control.col.col-lg-5.mr-2.border.border-dark.rounded-15(type='text', name='city', placeholder = 'Enter a city')
         button#submit.btn.btn-primary.form-control.col.col-lg-2.ml-2.rounded(type='submit') Get weather
-  h3#message.justify-content-md-center.text-center.mb-4
-  div#weather.container
+  div.justify-content-md-center.text-center.mb-4
+    block message
+  block forecast
     
